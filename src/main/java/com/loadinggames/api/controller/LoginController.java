@@ -12,8 +12,20 @@ public class LoginController {
 
     @Autowired
     LoginRepository repository;
+
     @PostMapping("cadastro")
     public Login cadastro(@RequestBody Login login) {
         return repository.save(login);
+    }
+
+    @PostMapping("autenticar")
+    public String autenticar(@RequestBody Login login) {
+
+    Login usuarioBanco= repository.findByUsuario(login.getUsuario());
+    if (usuarioBanco != null && usuarioBanco.getSenha().equals(login.getSenha())) {
+        return "sucesso";
+    } else {
+        return "erro";
+        }
     }
 }
